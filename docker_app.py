@@ -1,4 +1,5 @@
 import subprocess
+import time
 
 def create_u_con():
     process = subprocess.Popen(['docker', 'run', '-it', '--rm', '--detach', 'ubuntu_con'], 
@@ -25,10 +26,12 @@ con2_ip = get_con_ip(con2)
 print('\n')
 print("con1: ping -c 3 con2",'\n')
 result = subprocess.run(['docker', 'exec', '-it', con1, 'ping','-c', '3', con2_ip],capture_output=True)
+time.sleep(2)
 print(str(result.stdout))
 print('\n')
 print("con2: ping -c 3 con1",'\n')
 result = subprocess.run(['docker', 'exec', '-it', con2, 'ping','-c', '3', con1_ip],capture_output=True)
+time.sleep(2)
 print(str(result.stdout))
 
 subprocess.run("docker stop "+con1)
