@@ -15,7 +15,7 @@ def get_con_ip(con_id):
 
 def print_ping(con1,con2_ip):
     p = subprocess.Popen(['docker', 'exec', '-it', con1, 'ping','-c', '3', con2_ip], stdout=subprocess.PIPE,
-                     stderr=subprocess.PIPE, shell=True)
+                     stderr=subprocess.PIPE, shell=False)
     p.wait()
     print(p.stdout.read().decode())
 
