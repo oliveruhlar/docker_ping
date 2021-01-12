@@ -12,7 +12,6 @@ def get_con_ip(con_id):
                            universal_newlines=True)
     return(process.stdout.readline()[:-1])
 
-
 #build image
 subprocess.run("docker build -t ubuntu_con .")
 
@@ -25,12 +24,12 @@ con2_ip = get_con_ip(con2)
 
 print('\n')
 print("con1: ping -c 3 con2",'\n')
-subprocess.run("docker exec -it " + con1 + " ping -c 3 "+con2_ip)
-
+result = subprocess.run(['docker', 'exec', '-it', con1, 'ping','-c', '3', con2_ip],capture_output=True)
+print(result.stdout)
 print('\n')
 print("con2: ping -c 3 con1",'\n')
-subprocess.run("docker exec -it " + con2 + " ping -c 3 "+con1_ip)
-print('\n')
+result = subprocess.run(['docker', 'exec', '-it', con2, 'ping','-c', '3', con1_ip],capture_output=True)
+print(result.stdout)
 
 subprocess.run("docker stop "+con1)
 subprocess.run("docker stop "+con2)
