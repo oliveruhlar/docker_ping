@@ -15,9 +15,11 @@ def get_con_ip(con_id):
 
 def print_ping(con1,con2_ip):
     p = subprocess.Popen(['docker', 'exec', '-it', con1, 'ping','-c', '3', con2_ip], stdout=subprocess.PIPE,
-                     stderr=subprocess.PIPE, shell=False)
-    p.wait()
-    return(p.stdout.read().decode())
+                     stderr=subprocess.PIPE, shell=True)
+    #p.wait()
+    (out, err) = p.communicate()
+    print(out)
+    #return(p.stdout.read().decode())
 
 #build image
 subprocess.run("docker build -t ubuntu_con .")
@@ -28,19 +30,28 @@ subprocess.run("docker ps")
 
 con1_ip = get_con_ip(con1)
 con2_ip = get_con_ip(con2)
-
+""" 
 print('\n')
 print("con1: ping -c 3 con2",'\n')
 print(print_ping(con1,con2_ip))
 print('\n')
 print("con1: ping -c 3 con2",'\n')
-print(print_ping(con2,con1_ip))
+print(print_ping(con2,con1_ip)) """
 
-""" result = subprocess.run(['docker', 'exec', '-it', con1, 'ping','-c', '3', con2_ip],capture_output=True)
-print(str(result.stdout))
+
+
 print('\n')
-print("con2: ping -c 3 con1",'\n')
-result = subprocess.run(['docker', 'exec', '-it', con2, 'ping','-c', '3', con1_ip],capture_output=True)
+print("con1: ping -c 3 con2",'\n')
+print_ping(con1,con2_ip)
+print('\n')
+print("con1: ping -c 3 con2",'\n')
+print_ping(con2,con1_ip)
+
+
+
+""" result = sys("docker exec -it "+ con1 + " ping -c 3 " + con2_ip)
+print('\n')
+result = sys("docker exec -it "+ con2 + " ping -c 3 " + con1_ip)
 print(str(result.stdout)) """
 
 subprocess.run("docker stop "+con1)
