@@ -1,7 +1,7 @@
 from subprocess import PIPE, Popen, run
 
 def create_u_con():
-    process = Popen(['docker', 'run', '-it', '--rm', '--detach', 'ubuntu_con'], 
+    process = Popen(['docker', 'run', '-dt', '--rm', '--detach', 'ubuntu_con'], 
                            stdout=PIPE,
                            universal_newlines=True)
     return(process.stdout.readline()[0:12:1])
@@ -13,7 +13,7 @@ def get_con_ip(con_id):
     return(process.stdout.readline()[:-1])
 
 def print_ping(con1,con2_ip):
-    p = Popen(['docker', 'exec', '-it', con1, 'ping','-c', '3', con2_ip], 
+    p = Popen(['docker', 'exec', con1, 'ping','-c', '3', con2_ip], 
             stdout=PIPE,
             stderr=PIPE,
             shell=False)
@@ -21,7 +21,7 @@ def print_ping(con1,con2_ip):
     return(p.stdout.read().decode())
 
 def print_ping2(con1,con2_ip):
-    p = Popen(['docker', 'exec', '-it', con1, 'ping','-c', '3', con2_ip], 
+    p = Popen(['docker', 'exec', con1, 'ping','-c', '3', con2_ip], 
                         stdout=PIPE,
                         shell=True)
     return p.communicate()[0]
