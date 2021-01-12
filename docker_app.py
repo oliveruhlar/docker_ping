@@ -15,11 +15,9 @@ def get_con_ip(con_id):
 
 def print_ping(con1,con2_ip):
     p = subprocess.Popen(['docker', 'exec', '-it', con1, 'ping','-c', '3', con2_ip], stdout=subprocess.PIPE,
-                     stderr=subprocess.PIPE, shell=True)
-    #p.wait()
-    (out, err) = p.communicate()
-    print(out)
-    #return(p.stdout.read().decode())
+                     stderr=subprocess.PIPE, shell=False)
+    p.wait()
+    return(p.stdout.read().decode())
 
 #build image
 subprocess.run("docker build -t ubuntu_con .")
